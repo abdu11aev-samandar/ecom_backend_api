@@ -16,7 +16,10 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
 //            ProductSeeder::class,
             RoleSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+            AttributeSeeder::class,
+            ValueSeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }

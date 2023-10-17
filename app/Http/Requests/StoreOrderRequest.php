@@ -22,7 +22,22 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            /*'comment' => 'nullable|string',
+            'delivery_method_id' => 'required|integer|exists:delivery_methods,id',
+            'payment_type_id' => 'required|integer|exists:payment_types,id',
+            'sum' => 'required|integer',
+            'products' => 'required|array',
+            'products.*.id' => 'required|integer|exists:products,id',
+            'products.*.quantity' => 'required|integer|min:1',
+            'address' => 'required|string',*/
+
+            'delivery_method_id' => 'required|numeric',
+            'payment_type_id' => 'required|numeric',
+            'products' => 'required',
+            'products.*.product_id' => 'required|numeric',
+            'products.*.quantity' => 'required|numeric',
+            'products.*.stock_id' => 'nullable|numeric',
+            'comment' => 'nullable|max:500'
         ];
     }
 }

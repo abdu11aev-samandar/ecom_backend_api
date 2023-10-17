@@ -8,12 +8,17 @@ use App\Models\UserAddress;
 
 class UserAddressController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return auth()->user()->addresses()->get();
     }
 
     /**
@@ -29,7 +34,8 @@ class UserAddressController extends Controller
      */
     public function store(StoreUserAddressRequest $request)
     {
-        //
+        auth()->user()->addresses()->create($request->toArray());
+        return true;
     }
 
     /**

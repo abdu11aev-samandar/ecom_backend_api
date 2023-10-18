@@ -17,24 +17,24 @@ class ProductReviewController extends Controller
     // index
     public function index(Product $product)
     {
-        return response()->json([
-            'overall_rating' => $product->reviews()->avg('rating') ?: 0,
+        return $this->response([
+            'overall_rating' => round($product->reviews()->avg('rating'), 1) ?: 0,
             'reviews_count' => $product->reviews()->count(),
-            'reviews' => ReviewResource::collection($product->reviews()->paginate(10)),
+            'reviews' => $product->reviews()->with('user')->paginate(10),
         ]);
     }
 
     // store
     public function store(Product $product, StoreReviewRequest $request)
     {
-        $product->reviews()->create([
+        $review = $product->reviews()->create([
             'user_id' => auth()->id(),
             'rating' => $request->rating,
             'body' => $request->body,
         ]);
 
-        return response()->json([
-            'message' => 'Review created successfully',
-        ], 201);
+        return $this->success('Review created successfully',
+            $review
+        );
     }
 }

@@ -18,15 +18,9 @@ class UserAddressController extends Controller
      */
     public function index()
     {
-        return auth()->user()->addresses()->get();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return $this->response(
+            auth()->user()->addresses
+        );
     }
 
     /**
@@ -34,8 +28,10 @@ class UserAddressController extends Controller
      */
     public function store(StoreUserAddressRequest $request)
     {
-        auth()->user()->addresses()->create($request->toArray());
-        return true;
+        $address = auth()->user()->addresses()->create($request->toArray());
+        return $this->success('Address created successfully',
+            $address
+        );
     }
 
     /**

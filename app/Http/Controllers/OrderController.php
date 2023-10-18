@@ -23,7 +23,15 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return auth()->user()->orders;
+        if (request()->has('status_id')) {
+            return $this->response(
+                OrderResource::collection(auth()->user()->orders()->where('status_id', request('status_id'))->paginate(10))
+            );
+        }
+
+        return $this->response(
+            OrderResource::collection(auth()->user()->orders()->paginate(10))
+        );
     }
 
     /**
@@ -75,16 +83,16 @@ class OrderController extends Controller
                     $stock->save();
                 }
             }
-            return response()->json([
-                'message' => 'Order created successfully'
-            ], 201);
+            return $this->success('Order created',
+                $order,
+            );
         } else {
-            return response()->json([
-                'message' => 'Order not created',
+
+            return $this->error('Order not created', [
                 'not_found_products' => $notFoundProducts,
                 'products' => $products,
                 'sum' => $sum,
-            ], 400);
+            ]);
         }
     }
 
@@ -93,7 +101,9 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return new OrderResource($order);
+        return $this->response(
+            new OrderResource($order)
+        );
     }
 
     /**

@@ -8,12 +8,17 @@ use App\Models\Review;
 
 class ReviewController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return $this->response(auth()->user()->reviews()->with('product')->paginate(10));
     }
 
     /**
@@ -36,14 +41,6 @@ class ReviewController extends Controller
      * Display the specified resource.
      */
     public function show(Review $review)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Review $review)
     {
         //
     }

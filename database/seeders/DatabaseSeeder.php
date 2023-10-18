@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             PaymentTypeSeeder::class,
             UserAddressSeeder::class,
             StatusSeeder::class,
+            SettingSeeder::class,
         ]);
     }
 }

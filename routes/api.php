@@ -8,6 +8,8 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentTypeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StatusController;
+use App\Http\Controllers\StatusOrderController;
 use App\Http\Controllers\UserAddressController;
 use App\Models\UserPaymentCards;
 use Illuminate\Http\Request;
@@ -30,12 +32,14 @@ Route::post('register', [AuthController::class, 'register']);
 Route::get('user', [AuthController::class, 'user'])->middleware('auth:sanctum');
 
 Route::apiResources([
+    'categories' => CategoryController::class,
     'categories.products' => CategoryProductController::class,
     'delivery-methods' => DeliveryMethodController::class,
+    'statuses' => StatusController::class,
+    'statuses.orders' => StatusOrderController::class,
     'user-addresses' => UserAddressController::class,
     'payment-types' => PaymentTypeController::class,
     'user-payment-cards' => UserPaymentCards::class,
-    'categories' => CategoryController::class,
     'favorites' => FavoriteController::class,
     'products' => ProductController::class,
     'orders' => OrderController::class,

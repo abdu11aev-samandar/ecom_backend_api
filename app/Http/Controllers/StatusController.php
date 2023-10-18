@@ -5,15 +5,25 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStatusRequest;
 use App\Http\Requests\UpdateStatusRequest;
 use App\Models\Status;
+use Illuminate\Http\Request;
 
 class StatusController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+//        $this->middleware('admin')->only(['store', 'update', 'destroy']);
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->has('for')){
+            return Status::where('for', $request['for'])->get();
+        }
+
+        return Status::all();
     }
 
     /**

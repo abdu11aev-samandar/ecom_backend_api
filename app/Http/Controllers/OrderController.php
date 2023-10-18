@@ -57,8 +57,8 @@ class OrderController extends Controller
 
 
         if ($notFoundProducts == [] && $products != [] && $sum != 0) {
-            // TODO add status to order
             $order = auth()->user()->orders()->create([
+                'status_id' => in_array($request['payment_type_id'], [1, 2]) ? 1 : 10, // 1 - naqblash, 2 - terminal
                 'delivery_method_id' => $request->delivery_method_id,
                 'payment_type_id' => $request->payment_type_id,
                 'user_address_id' => $request->user_address_id,

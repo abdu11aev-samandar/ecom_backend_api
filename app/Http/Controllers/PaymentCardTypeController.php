@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePaymentTypeRequest;
-use App\Http\Requests\UpdatePaymentTypeRequest;
-use App\Models\PaymentType;
+use App\Http\Requests\StorePaymentCardTypeRequest;
+use App\Http\Requests\UpdatePaymentCardTypeRequest;
+use App\Models\PaymentCardType;
 
-class PaymentTypeController extends Controller
+class PaymentCardTypeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return $this->response(PaymentType::all());
+        return $this->response(PaymentCardType::all());
     }
 
     /**
@@ -27,7 +32,7 @@ class PaymentTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePaymentTypeRequest $request)
+    public function store(StorePaymentCardTypeRequest $request)
     {
         //
     }
@@ -35,7 +40,7 @@ class PaymentTypeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PaymentType $paymentType)
+    public function show(PaymentCardType $paymentCardType)
     {
         //
     }
@@ -43,7 +48,7 @@ class PaymentTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(PaymentType $paymentType)
+    public function edit(PaymentCardType $paymentCardType)
     {
         //
     }
@@ -51,7 +56,7 @@ class PaymentTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePaymentTypeRequest $request, PaymentType $paymentType)
+    public function update(UpdatePaymentCardTypeRequest $request, PaymentCardType $paymentCardType)
     {
         //
     }
@@ -59,7 +64,7 @@ class PaymentTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PaymentType $paymentType)
+    public function destroy(PaymentCardType $paymentCardType)
     {
         //
     }

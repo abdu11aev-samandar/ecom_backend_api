@@ -4,24 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserPaymentCardsRequest;
 use App\Http\Requests\UpdateUserPaymentCardsRequest;
+use App\Http\Resources\UserPaymentCardResource;
 use App\Models\UserPaymentCards;
 
 class UserPaymentCardsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return $this->response(UserPaymentCardResource::collection(auth()->user()->paymentCards));
     }
 
     /**
@@ -29,29 +27,22 @@ class UserPaymentCardsController extends Controller
      */
     public function store(StoreUserPaymentCardsRequest $request)
     {
-        //
+        $card = auth()->user()->paymentCards()->create([
+            'payment_card_type_id' => $request->payment_card_type_id,
+            'name' => encrypt($request->name),
+            'number' => encrypt($request->number),
+            'last_four_numbers' => encrypt(substr($request->number, -4)),
+            'exp_date' => encrypt($request->exp_date),
+            'holder_name' => encrypt($request->holder_name),
+        ]);
+
+        return $this->success('Payment card created successfully');
     }
 
     /**
      * Display the specified resource.
      */
     public function show(UserPaymentCards $userPaymentCards)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserPaymentCards $userPaymentCards)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateUserPaymentCardsRequest $request, UserPaymentCards $userPaymentCards)
     {
         //
     }

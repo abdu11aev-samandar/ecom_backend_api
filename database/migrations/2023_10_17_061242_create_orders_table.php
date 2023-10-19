@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -17,7 +16,7 @@ return new class extends Migration
             $table->text('comment')->nullable();
             $table->foreignId('delivery_method_id')->constrained();
             $table->foreignId('payment_type_id')->constrained();
-            $table->unsignedBigInteger('sum');
+            $table->unsignedBigInteger('sum')->comment('Sum of order of product is stored in sum (not coins)');
             $table->foreignId('status_id')->default(1)->constrained();
             $table->json('products');
             $table->text('address')->nullable();

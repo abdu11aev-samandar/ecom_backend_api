@@ -18,8 +18,9 @@ return new class extends Migration {
             $table->foreignId('payment_type_id')->constrained();
             $table->unsignedBigInteger('sum')->comment('Sum of order of product is stored in sum (not coins)');
             $table->foreignId('status_id')->default(1)->constrained();
-            $table->json('products');
             $table->text('address')->nullable();
+            $table->json('products');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

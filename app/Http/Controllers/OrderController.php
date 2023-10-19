@@ -16,6 +16,7 @@ class OrderController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum');
+        $this->authorizeResource(Order::class, 'order');
     }
 
     /**
@@ -127,6 +128,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+        return $this->success('Order deleted');
     }
 }

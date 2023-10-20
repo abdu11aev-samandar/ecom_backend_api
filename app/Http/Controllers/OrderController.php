@@ -6,6 +6,7 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\ProductResource;
+use App\Models\DeliveryMethod;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Stock;
@@ -44,6 +45,7 @@ class OrderController extends Controller
         $products = [];
         $notFoundProducts = [];
         $address = UserAddress::find($request->address_id);
+        $deliveryMethod = DeliveryMethod::findOrFail($request->delivery_method_id);
 
         foreach ($request['products'] as $requestProduct) {
             $product = Product::with('stocks')->findOrFail($requestProduct['product_id']);
@@ -54,8 +56,6 @@ class OrderController extends Controller
                 $product->stocks()->find($requestProduct['stock_id'])->quantity >= $requestProduct['quantity']
             ) {
                 /**
-                 * Discount price
-                 * Shipping fee
                  * Attribute price
                  */
 
@@ -63,6 +63,7 @@ class OrderController extends Controller
                 $productResource = (new ProductResource($productWithStock))->resolve();
 
                 $sum += $productResource['discounted_price'] ?? $productResource['price'];
+                $sum += $productWithStock->stocks[0]->added_price;
                 $products[] = $productResource;
             } else {
                 $requestProduct['we_have'] = $product->stocks()->find($requestProduct['stock_id'])->quantity;
@@ -72,6 +73,9 @@ class OrderController extends Controller
 
 
         if ($notFoundProducts == [] && $products != [] && $sum != 0) {
+
+            $sum += $deliveryMethod->sum;
+
             $order = auth()->user()->orders()->create([
                 'status_id' => in_array($request['payment_type_id'], [1, 2]) ? 1 : 10, // 1 - naqblash, 2 - terminal
                 'delivery_method_id' => $request->delivery_method_id,

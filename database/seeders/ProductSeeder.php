@@ -21,7 +21,8 @@ class ProductSeeder extends Seeder
                 'attributes' => json_encode([
                     'attribute_id' => 1,
                     'value_id' => rand(1, 3)
-                ])
+                ]),
+                "added_price" => rand(1000, 10000),
             ]);
         }
     }

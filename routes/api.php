@@ -9,11 +9,13 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentCardTypeController;
 use App\Http\Controllers\PaymentTypeController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductPhotoController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\StatusOrderController;
@@ -38,18 +40,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('products/{product}/related', [ProductController::class, 'related']);
+Route::post('permissions/assign', [PermissionController::class, 'assign']);
+Route::post('roles/assign', [RoleController::class, 'assign']);
 
 Route::apiResources([
     'users' => UserController::class,
+    'roles' => RoleController::class,
     'orders' => OrderController::class,
     'photos' => PhotoController::class,
     'reviews' => ReviewController::class,
     'statuses' => StatusController::class,
     'products' => ProductController::class,
     'settings' => SettingController::class,
-    'discounts'=> DiscountController::class,
+    'discounts' => DiscountController::class,
     'favorites' => FavoriteController::class,
     'categories' => CategoryController::class,
+    'permissions' => PermissionController::class,
     'users.photos' => UserPhotoController::class,
     'user-settings' => UserSettingController::class,
     'payment-types' => PaymentTypeController::class,

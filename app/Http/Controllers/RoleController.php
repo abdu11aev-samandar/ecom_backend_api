@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssignRoleToUserRequest;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
-use App\Models\Role;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+        $this->authorizeResource(Role::class, 'role');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $this->response(Role::all());
     }
 
     /**
@@ -29,21 +29,18 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        //
+        $role = Role::create([
+            'name' => $request->name,
+            'guard_name' => 'web',
+        ]);
+
+        return $this->success('Role created successfully', $role);
     }
 
     /**
      * Display the specified resource.
      */
     public function show(Role $role)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Role $role)
     {
         //
     }
@@ -62,5 +59,15 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         //
+    }
+
+    public function assign(AssignRoleToUserRequest $request)
+    {
+        $user = User::findOrFail($request->user_id);
+        $role = Role::findOrFail($request->role_id);
+
+        $user->assignRole($role->name);
+
+        return $this->success('Role assigned successfully');
     }
 }

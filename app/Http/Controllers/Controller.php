@@ -19,7 +19,7 @@ class Controller extends BaseController
     }
 
     // success
-    public function success(string $message, array|object $data = null)
+    public function success(string $message = null, array|object $data = null)
     {
         return response()->json([
             'success' => true,
@@ -30,7 +30,7 @@ class Controller extends BaseController
     }
 
     // error
-    public function error(string $message, array|object $data = null)
+    public function error(string $message = null, array|object $data = null)
     {
         return response()->json([
             'success' => false,

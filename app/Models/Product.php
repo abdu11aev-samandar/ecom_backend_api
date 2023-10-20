@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
@@ -56,5 +57,10 @@ class Product extends Model
     public function photos(): MorphMany
     {
         return $this->morphMany(Photo::class, 'photoable');
+    }
+
+    public function discount(): HasOne
+    {
+        return $this->hasOne(Discount::class);
     }
 }
